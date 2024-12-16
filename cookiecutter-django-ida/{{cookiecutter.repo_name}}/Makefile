@@ -145,59 +145,10 @@ endif
 push_translations: ## push source translation files (.po) from Transifex
 	tx push -s
 
-start-devstack: ## run a local development copy of the server
-	docker-compose --x-networking up
-
-open-devstack: ## open a shell on the server started by start-devstack
-	docker exec -it {{cookiecutter.repo_name}} /edx/app/{{cookiecutter.repo_name}}/devstack.sh open
-
-pkg-devstack: ## build the {{cookiecutter.repo_name}} image from the latest configuration and code
-	docker build -t {{cookiecutter.repo_name}}:latest -f docker/build/{{cookiecutter.repo_name}}/Dockerfile git://github.com/openedx/configuration
-
 detect_changed_source_translations: ## check if translation files are up-to-date
 	cd {{cookiecutter.project_name}} && i18n_tool changed
 
 validate_translations: fake_translations detect_changed_source_translations ## install fake translations and check if translation files are up-to-date
-
-docker_build:
-	docker build . -f Dockerfile -t openedx/{{cookiecutter.repo_name}}
-
-# devstack-themed shortcuts
-dev.up: # Starts all containers
-	docker-compose up -d
-
-dev.up.build:
-	docker-compose up -d --build
-
-dev.down: # Kills containers and all of their data that isn't in volumes
-	docker-compose down
-
-dev.stop: # Stops containers so they can be restarted
-	docker-compose stop
-
-app-shell: # Run the app shell as root
-	docker exec -u 0 -it {{cookiecutter.project_name}}.app bash
-
-db-shell: # Run the app shell as root, enter the app's database
-	docker exec -u 0 -it {{cookiecutter.project_name}}.db mysql -u root {{cookiecutter.project_name}}
-
-%-logs: # View the logs of the specified service container
-	docker-compose logs -f --tail=500 $*
-
-%-restart: # Restart the specified service container
-	docker-compose restart $*
-
-%-attach:
-	docker attach {{cookiecutter.project_name}}.$*
-
-docker_auth:
-	echo "$$DOCKERHUB_PASSWORD" | docker login -u "$$DOCKERHUB_USERNAME" --password-stdin
-
-docker_tag_build_push: docker_auth
-	docker buildx build -t openedx/{{cookiecutter.repo_name}}:latest -t openedx/{{cookiecutter.repo_name}}:${GITHUB_SHA} --platform linux/amd64,linux/arm64 --target prod --push .
-
-docker_tag_build_push_dev: docker_auth
-	docker buildx build -t openedx/{{cookiecutter.repo_name}}-dev:latest -t openedx/{{cookiecutter.repo_name}}-dev:${GITHUB_SHA} --platform linux/amd64,linux/arm64 --target dev --push .
 
 selfcheck: ## check that the Makefile is well-formed
 	@echo "The Makefile is well-formed."

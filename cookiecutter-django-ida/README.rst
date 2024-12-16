@@ -31,16 +31,22 @@ To create a project using this cookiecutter, follow the instructions found in ed
 
 .. _readme: https://github.com/openedx/edx-cookiecutters/blob/master/README.rst
 
-After the new folder is created, you will need to:
+After the new folder is created, you will need to do something like:
 
 1. ``cd <new_repo_folder>``
 2. Create a Python 3 virtual environment and activate it
 3. ``make upgrade``
-4. ``make docker_build``
-5. ``docker-compose up``
-6. ``./provision-{project_name}.sh``
+4. ``make requirements``
+5. ``./manage.py migrate``
+6. ``./manage.py runserver``
 7. Commit and push all your changes: ``git commit …`` ``git push``
 8. Connect repo to renovate(and other github tools): see `Set up Renovate to Automate JavaScript Dependency Updates`_
+
+Please note: These steps have not been tested in a while, as the Open edX
+project has generally avoided creating new independently deployable
+applications in the past few years. If you successfully complete these steps,
+please consider removing this note and adding any additional steps or
+considerations to this section. Thank you!
 
 .. _Set up Renovate to Automate JavaScript Dependency Updates: https://openedx.atlassian.net/wiki/spaces/AC/pages/1841791377/Set+up+Renovate+to+Automate+JavaScript+Dependency+Updates
 

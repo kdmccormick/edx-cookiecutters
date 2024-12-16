@@ -41,16 +41,6 @@ piptools: ## install pinned version of pip-compile and pip-sync
 requirements: piptools ## install development environment requirements
 	pip-sync -q requirements/dev.txt requirements/private.*
 
-dev.clean:
-	-docker rm $(REPO_NAME)-dev
-	-docker rmi $(REPO_NAME)-dev
-
-dev.build:
-	docker build -t $(REPO_NAME)-dev $(CURDIR)
-
-dev.run: dev.clean dev.build ## Clean, build and run test image
-	docker run -p 8000:8000 -v $(CURDIR):/usr/local/src/$(REPO_NAME) --name $(REPO_NAME)-dev $(REPO_NAME)-dev
-
 ## Localization targets
 
 extract_translations: ## extract strings to be translated, outputting .po files

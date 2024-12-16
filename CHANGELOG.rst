@@ -5,6 +5,14 @@ Change Log
    This file loosely adheres to the structure of https://keepachangelog.com/,
    but in reStructuredText instead of Markdown.
 
+2024-12-16
+**********
+
+- Remove unsupported `Devstack references`_ and `Docker tooling`_.
+
+.. _Devstack references: https://github.com/openedx/public-engineering/issues/247
+.. _Docker tooling: https://github.com/openedx/public-engineering/issues/263
+
 2024-05-25
 **********
 
